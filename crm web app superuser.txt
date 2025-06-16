@@ -1,0 +1,4 @@
+crm web app superuser credentials 
+useremail -> svkmukherjee1@gmail.com
+souvik -> username
+djangoishot -> password
