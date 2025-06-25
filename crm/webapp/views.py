@@ -28,4 +28,7 @@ def home(request):
 #     pass
 
 def logout_view(request):
-    pass
+    # pass
+    logout(request)
+    messages.success(request, "You are now logged out");
+    return redirect('home')
