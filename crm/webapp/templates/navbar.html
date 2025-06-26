@@ -14,11 +14,18 @@
                 </li>
                 {% else %}
                 <li>
+                    <a class="nav-link" href="{% url 'register'  %}">
+                        Register
+                    </a>
+                </li>
+
+                <li>
                     <a class="nav-link" href="{% url 'home'  %}">
                         Login
                     </a>
                 </li>
                 {% endif %}
+
 
             </ul>
 
