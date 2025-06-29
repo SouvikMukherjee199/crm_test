@@ -1,11 +1,45 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<div class="col-md-6 offset-md-3">
+
 
   {% if user.is_authenticated %}
   
-  <h1>Welcome Souvik</h1>
+  <h1 >Client List</h1>
+  {% if clients %}
+   
+   {%  for client in clients %}
+     <table class="table  table-hover">
+  <thead class="table-warning">
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Full Name</th>
+      <th scope="col">Email</th>
+      <th scope="col">Contact No</th>
+      <th scope="col">Created At</th>
+      <th scope="col">City</th>
+      <th scope="col">ID</th>
+    </tr>
+  </thead>
+  <tbody class="table-striped">
+    <tr>
+      <th scope="row">1</th>
+      <td>{{ client.full_name }}</td>
+      <td>{{ client.email }} </td>
+      <td>{{ client.phone}}</td>
+      <td>{{ client.created_at }}</td>
+      <td>{{ client.city}}</td>
+      <td>{{ client.id}}</td>
+    </tr>
+  
+  </tbody>
+</table>
+     
+
+     {% endfor %}
+  {% endif %}
+
+
   {% else %} 
 
   <h1>Login</h1>
@@ -30,7 +64,7 @@
   <button type="submit" class="btn btn-primary">Submit</button>
 </form>
 
-</div>
+
 
 {% endif %}
 {% endblock %}

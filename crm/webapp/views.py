@@ -2,8 +2,14 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login ,logout
 from django.contrib import messages
 from .forms import RegistrationForm
+from .models import Client
 # Create your views here.
 def home(request):
+    
+    #Grab all the client records from the database
+    clients = Client.objects.all()
+
+
     #check the logged in user
     if request.method == 'POST':
         username = request.POST['username']
@@ -22,7 +28,7 @@ def home(request):
     
     else: 
 
-        return render(request, 'home.html', {})
+        return render(request, 'home.html', {'clients': clients})
 
 #this function will be used if we want to use any seperate login page   
 # def login_view(request):
