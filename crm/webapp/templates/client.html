@@ -1,0 +1,22 @@
+{% extends 'base.html'  %}
+{% block content %}
+<h1 class="text-center">Client Details</h1>
+
+<div class="container mt-5 flex justify-content-center">
+    <div class="card  text-center">
+  <h5 class="card-header">{{ client_record.full_name }}</h5>
+  <div class="card-body">
+    <h5 class="card-title">{{ client_record.email }}</h5>
+    <p class="card-text">{{ client_record.phone }}<br>
+    {{ client_record.city }} <br>
+    {{ client_record.created_at }}
+    </p>
+    <a href="{% url 'home'  %}" class="btn btn-primary">Go back</a>
+  </div>
+</div>
+
+</div>
+
+
+       
+{% endblock %}
