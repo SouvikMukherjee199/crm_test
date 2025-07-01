@@ -56,3 +56,12 @@ def register_view(request):
     else: #incase of registering a user without providing any data in the form
         form = RegistrationForm()
     return render(request, 'register.html', {'form' : form})
+
+def client(request, pk):
+    if request.user.is_authenticated:
+        # Look up the specific client by primary key (pk)
+        client_record = Client.objects.get(id=pk)
+        return render(request, "client.html", {'client_record': client_record})
+    else:
+        messages.success(request, "Login to view the client details") 
+        return redirect('home')
