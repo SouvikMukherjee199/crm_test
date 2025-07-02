@@ -65,3 +65,15 @@ def client(request, pk):
     else:
         messages.success(request, "Login to view the client details") 
         return redirect('home')
+    
+def client_delete(request, pk):
+    # Only allow deletion if the user is authenticated
+    if request.user.is_authenticated: 
+        # Look up the specific client by primary key (pk)
+        delete_record = Client.objects.get(id=pk)
+        delete_record.delete()
+        messages.success(request, "Client record deleted successfully")
+        return redirect('home')
+    else:
+        messages.success(request, "Login to delete the client record") 
+        return redirect('home')

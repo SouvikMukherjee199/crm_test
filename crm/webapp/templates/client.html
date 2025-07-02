@@ -12,6 +12,7 @@
     {{ client_record.created_at }}
     </p>
     <a href="{% url 'home'  %}" class="btn btn-primary">Go back</a>
+    <a href="{% url 'client_delete' client_record.id  %}" class="btn btn-danger">Delete</a>
   </div>
 </div>
 
