@@ -91,3 +91,22 @@ def add_client(request):
         messages.success(request, "Login to add a new client") 
         
         return redirect('home')
+    
+    #For updating the client record
+
+def client_update(request, pk):
+    if request.user.is_authenticated:
+        # Look up the specific client by primary key (pk)or id
+        client_record = Client.objects.get(id=pk)
+        form = AddClientForm(request.POST or None, instance=client_record)
+        if request.method == 'POST':
+            if form.is_valid:
+                update_client = form.save()
+                messages.success(request, "Client record updated successfully")
+                return redirect('home')
+        else:
+            form = AddClientForm(instance=client_record)
+        return render(request, 'client_update.html', {'form': form})
+    else:
+        messages.success(request, "Login to update the client record") 
+        return redirect('home')
