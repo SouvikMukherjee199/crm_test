@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block content %}
+
+{% if user.is_authenticated %}
+
+<p>
+    <h1>Search result for "{{ query }}" </h1>
+
+    <ul>
+        {% for client in results %}
+        
+            <li>{{client.full_name}} resident of {{client.city}}</li>
+         
+        {% empty %}
+
+         <li>No result found</li>
+        {% endfor %}
+    </ul>
+
+</p>
+
+{% endif %}
+
+{% endblock %}
