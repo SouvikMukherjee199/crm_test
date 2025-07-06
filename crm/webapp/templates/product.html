@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>Product Purchase</h1>
+    <p>
+        <a href="{% url 'new_product' client.id %}" class="btn btn-primary">Add New Product</a>
+    </p>
+
+    <div class="card">
+        <div class="card-header">
+            <h2>{{ client.id }} {{ client.full_name }}'s Products</h2>
+        </div>
+        <div class="card-body">
+            {% if products %}
+                <table class="table table-hover">
+                    <thead class="table-warning">
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Product Name</th>
+                            <th scope="col">Price</th>
+                            <th scope="col">Purchase Date</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-striped">
+                        {% for product in products %}
+                            <tr>
+                                <th scope="row">{{ forloop.counter }}</th>
+                                <td>{{ product.product_name }}</td>
+                                <td>{{ product.price }}</td>
+                                <td>{{ product.date }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>No products found for this client.</p>
+            {% endif %}
+
+            <a href="{% url 'home' %}" class="btn btn-primary">Go Back</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

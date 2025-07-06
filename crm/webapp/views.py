@@ -1,7 +1,7 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login ,logout
 from django.contrib import messages
-from .forms import RegistrationForm, AddClientForm
+from .forms import RegistrationForm, AddClientForm, ProductForm
 from .models import Client
 # Create your views here.
 def home(request):
@@ -109,4 +109,37 @@ def client_update(request, pk):
         return render(request, 'client_update.html', {'form': form})
     else:
         messages.success(request, "Login to update the client record") 
+        return redirect('home')
+    
+# for product related views
+def product(request, client_pk):
+    if request.user.is_authenticated:
+        client = get_object_or_404(Client, id=client_pk)
+        products = client.product.all()
+        return render(request, 'product.html', {'client': client,'products': products})
+    else:
+        messages.success(request, "You need to login to view products")
+        return redirect('home')
+    
+# for adding new product
+def new_product(request, client_pk):
+    if request.user.is_authenticated:
+        client = get_object_or_404(Client, id=client_pk)
+        products = client.product.all()
+        if request.method == 'POST':
+            form = ProductForm(request.POST, client=client)
+            if form.is_valid():
+                product = form.save(commit=False)
+                product.client = client
+                product.save()
+                messages.success(request, "New product added successfully")
+                return render(request, 'product.html', {'client': client, 'products': products})
+            else:
+                messages.success(request, "Error adding product")
+                form = new_product(client=client)
+        else:
+            form = ProductForm(client=client)
+        return render(request, 'new_product.html', {'form': form})
+    else:
+        messages.success(request, "You need to login to add a new product")
         return redirect('home')
