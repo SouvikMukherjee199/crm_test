@@ -3,6 +3,7 @@ from django.contrib.auth import authenticate, login ,logout
 from django.contrib import messages
 from .forms import RegistrationForm, AddClientForm, ProductForm
 from .models import Client
+from django.db.models import Q
 # Create your views here.
 def home(request):
     
@@ -143,3 +144,15 @@ def new_product(request, client_pk):
     else:
         messages.success(request, "You need to login to add a new product")
         return redirect('home')
+
+# for searching clients
+def search_client(request):
+    query = request.GET.get('q')
+    results = []
+
+    if query:
+        results = Client.objects.filter(Q(full_name__icontains=query) | Q(city__icontains=query))
+    
+    return render(request, 'search_client.html', {'results': results, 'query': query})
+    
+            
