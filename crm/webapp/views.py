@@ -156,3 +156,16 @@ def search_client(request):
     return render(request, 'search_client.html', {'results': results, 'query': query})
     
             
+# for deleting a product
+from .models import Product
+
+def delete_product(request, product_pk):
+    if request.user.is_authenticated:
+        product = get_object_or_404(Product, pk=product_pk)
+        client_id = product.client.id
+        product.delete()
+        messages.success(request, "Product deleted successfully")
+        return redirect('product', client_pk=client_id)
+    else:
+        messages.error(request, "You need to login to delete a product")
+        return redirect('home')
