@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Client
+from .models import Client, Product
 # Register your models here.
 
 class ClientAdmin(admin.ModelAdmin):
@@ -7,3 +7,9 @@ class ClientAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Client, ClientAdmin)
+
+
+class ProductAdmin(admin.ModelAdmin):
+    list_display = ("client", "product_name",  "price" )
+
+admin.site.register(Product, ProductAdmin)
