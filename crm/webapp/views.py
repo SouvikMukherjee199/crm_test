@@ -6,6 +6,9 @@ from .models import Client
 import csv
 from django.http import HttpResponse
 from django.db.models import Q
+from django.template.loader import get_template
+from xhtml2pdf import pisa
+
 # Create your views here.
 def home(request):
     
@@ -188,3 +191,21 @@ def export_csv(request):
     for client in client_data:
         writer.writerow([client.full_name, client.email, client.phone, client.city])
     return response
+
+# for exporting client data as PDF
+def export_pdf(request):
+    if request.user.is_authenticated:
+        clients = Client.objects.all()
+        template_path = 'clients_pdf.html'
+        context = {'clients': clients}
+        response = HttpResponse(content_type='application/pdf')
+        response['Content-Disposition'] = 'attachment; filename="clients.pdf"'
+        template = get_template(template_path)
+        html = template.render(context)
+        pisa_status = pisa.CreatePDF(html, dest=response)
+        if pisa_status.err:
+            return HttpResponse('We had some errors <pre>' + html + '</pre>')
+        return response
+    else:
+        messages.error(request, "Login to export as PDF")
+        return redirect('home')
