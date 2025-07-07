@@ -14,5 +14,5 @@ urlpatterns = [
     path('client/new_product/<int:client_pk>/', views.new_product, name='new_product'),
     path('search_client/', views.search_client, name='search_client'),
     path('client/delete_product/<int:product_pk>/', views.delete_product, name='delete_product'),
-
+    path('export_csv/', views.export_csv, name='export_csv'),
 ]
