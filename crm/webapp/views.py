@@ -3,6 +3,8 @@ from django.contrib.auth import authenticate, login ,logout
 from django.contrib import messages
 from .forms import RegistrationForm, AddClientForm, ProductForm
 from .models import Client
+import csv
+from django.http import HttpResponse
 from django.db.models import Q
 # Create your views here.
 def home(request):
@@ -169,3 +171,20 @@ def delete_product(request, product_pk):
     else:
         messages.error(request, "You need to login to delete a product")
         return redirect('home')
+
+# for exporting client data as CSV
+def export_csv(request):
+    response = HttpResponse(content_type='text/csv')
+    response["Content_Disposition"] = 'attachment, filename="clients.csv'
+
+    #create a csv writer object
+    writer = csv.writer(response)
+
+    #write the header row
+    writer.writerow([ 'full_name', 'email', 'phone', 'city'])
+
+    #fetch client data from the database
+    client_data = Client.objects.all()
+    for client in client_data:
+        writer.writerow([client.full_name, client.email, client.phone, client.city])
+    return response
